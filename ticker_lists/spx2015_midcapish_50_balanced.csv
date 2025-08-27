@@ -1,0 +1,51 @@
+Ticker,Company,Sector,S&P_Start,S&P_End,CurMktCap
+ADM,Archer Daniels Midland,Consumer Defensive,1957-03-04,Present,30850592768
+AIG,American International Group,Financial Services,1980-03-31,Present,45852139520
+AKAM,Akamai Technologies,Technology,2007-07-12,Present,10971895808
+ALLE,Allegion,Industrials,2013-12-02,Present,14576735232
+AME,Ametek,Industrials,2013-09-23,Present,42867372032
+AMP,Ameriprise Financial,Financial Services,2005-10-03,Present,48216150016
+APA,APA Corporation,Energy,1997-07-28,Present,8000094720
+APTV,Aptiv,Consumer Cyclical,2012-12-24,Present,17170375680
+AVY,Avery Dennison,Consumer Cyclical,1987-12-31,Present,13707606016
+BAX,Baxter International,Healthcare,1972-09-30,Present,12609394688
+BEN,Franklin Resources,Financial Services,1998-04-30,Present,13171978240
+BF-B,Brown–Forman,Consumer Defensive,1982-10-31,Present,14679905280
+BXP,"BXP, Inc.",Real Estate,2006-04-03,Present,12324937728
+CAG,Conagra Brands,Consumer Defensive,1983-08-31,Present,9169384448
+CNP,CenterPoint Energy,Utilities,1985-07-31,Present,24616275968
+CPB,Campbell's Company (The),Consumer Defensive,1957-03-04,Present,9695186944
+DLTR,Dollar Tree,Consumer Defensive,2011-12-19,Present,23332212736
+EA,Electronic Arts,Communication Services,2002-07-22,Present,43242778624
+EFX,Equifax,Industrials,1997-06-19,Present,30891646976
+EL,Estée Lauder Companies (The),Consumer Defensive,2006-01-05,Present,31895162880
+ESS,Essex Property Trust,Real Estate,2014-04-02,Present,18344593408
+GRMN,Garmin,Technology,2012-12-12,Present,44814528512
+HAL,Halliburton,Energy,1957-03-04,Present,19042865152
+HAS,Hasbro,Consumer Cyclical,1984-09-30,Present,11367285760
+HRL,Hormel Foods,Consumer Defensive,2009-03-04,Present,15872718848
+IFF,International Flavors & Fragrances,Basic Materials,1976-03-31,Present,17199421440
+IPG,Interpublic Group of Companies (The),Communication Services,1992-10-01,Present,9931301888
+KHC,Kraft Heinz,Consumer Defensive,2015-07-06,Present,32773883904
+KIM,Kimco Realty,Real Estate,2006-04-04,Present,15037225984
+L,Loews Corporation,Financial Services,1995-05-31,Present,19848595456
+LEN,Lennar,Consumer Cyclical,2005-10-04,Present,34731622400
+LYB,LyondellBasell,Basic Materials,2012-09-05,Present,18346803200
+NI,NiSource,Utilities,2000-11-02,Present,20091381760
+NWSA,News Corp (Class A),Communication Services,2013-08-01,Present,17870247936
+OXY,Occidental Petroleum,Energy,1957-03-04,Present,45704794112
+PHM,PulteGroup,Consumer Cyclical,1984-04-30,Present,26096607232
+PNW,Pinnacle West Capital,Utilities,1999-10-04,Present,10749624320
+PPG,PPG Industries,Basic Materials,1957-03-04,Present,25300969472
+PSKY,Paramount Skydance Corporation,Communication Services,1994-09-30,Present,17494554624
+RF,Regions Financial Corporation,Financial Services,1998-08-28,Present,23784468480
+ROK,Rockwell Automation,Industrials,2000-03-12,Present,39341780992
+STX,Seagate Technology,Technology,2012-07-02,Present,34881150976
+TXT,Textron,Industrials,1978-12-31,Present,14390052864
+VMC,Vulcan Materials Company,Basic Materials,1999-06-30,Present,38366830592
+VRSN,Verisign,Technology,2006-02-01,Present,24883118080
+VTR,Ventas,Real Estate,2009-03-04,Present,30774503424
+WAT,Waters Corporation,Healthcare,2002-01-02,Present,17801574400
+WDC,Western Digital,Technology,2009-07-01,Present,27483160576
+WEC,WEC Energy Group,Utilities,2008-10-31,Present,34426785792
+WY,Weyerhaeuser,Real Estate,1979-10-01,Present,19112824832

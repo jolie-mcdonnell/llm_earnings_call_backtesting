@@ -1,0 +1,51 @@
+Ticker,Company,Sector,S&P_Start,S&P_End,CurMktCap
+AES,AES Corporation,Utilities,1998-10-02,Present,9605554176
+AIG,American International Group,Financial Services,1980-03-31,Present,45852139520
+AIZ,Assurant,Financial Services,2007-04-10,Present,10795241472
+AMP,Ameriprise Financial,Financial Services,2005-10-03,Present,48216150016
+APTV,Aptiv,Consumer Cyclical,2012-12-24,Present,17170375680
+AVY,Avery Dennison,Consumer Cyclical,1987-12-31,Present,13707606016
+BBY,Best Buy,Consumer Cyclical,1999-06-29,Present,15713649664
+BEN,Franklin Resources,Financial Services,1998-04-30,Present,13171978240
+CCL,Carnival,Consumer Cyclical,1998-12-22,Present,42357690368
+CMS,CMS Energy,Utilities,1957-03-04,Present,21614981120
+CNP,CenterPoint Energy,Utilities,1985-07-31,Present,24616275968
+DRI,Darden Restaurants,Consumer Cyclical,1995-05-31,Present,23935787008
+DTE,DTE Energy,Utilities,1957-03-04,Present,28734330880
+EBAY,eBay Inc.,Consumer Cyclical,2002-07-22,Present,45037350912
+ED,Consolidated Edison,Utilities,1957-03-04,Present,36043563008
+ES,Eversource Energy,Utilities,2009-07-24,Present,23536113664
+ETR,Entergy,Utilities,1957-03-04,Present,39806287872
+EXPE,Expedia Group,Consumer Cyclical,2007-10-02,Present,26394810368
+F,Ford Motor Company,Consumer Cyclical,1957-03-04,Present,46902648832
+FE,FirstEnergy,Utilities,1997-11-28,Present,25195024384
+FITB,Fifth Third Bancorp,Financial Services,1996-03-29,Present,29361307648
+GL,Globe Life,Financial Services,1989-04-30,Present,11289457664
+HBAN,Huntington Bancshares,Financial Services,1997-08-28,Present,25224554496
+HIG,Hartford (The),Financial Services,1957-03-04,Present,37317148672
+IP,International Paper,Consumer Cyclical,1957-03-04,Present,26077032448
+IVZ,Invesco,Financial Services,2008-08-21,Present,9645888512
+KMX,CarMax,Consumer Cyclical,2010-06-28,Present,8980308992
+L,Loews Corporation,Financial Services,1995-05-31,Present,19848595456
+LEN,Lennar,Consumer Cyclical,2005-10-04,Present,34731622400
+MHK,Mohawk Industries,Consumer Cyclical,2013-12-23,Present,8205138432
+MTB,M&T Bank,Financial Services,2004-02-23,Present,30925633536
+NI,NiSource,Utilities,2000-11-02,Present,20091381760
+NRG,NRG Energy,Utilities,2010-01-29,Present,27999719424
+NTRS,Northern Trust,Financial Services,1998-01-30,Present,24902232064
+PEG,Public Service Enterprise Group,Utilities,1957-03-04,Present,41219014656
+PFG,Principal Financial Group,Financial Services,2002-07-22,Present,17883813888
+PHM,PulteGroup,Consumer Cyclical,1984-04-30,Present,26096607232
+PNW,Pinnacle West Capital,Utilities,1999-10-04,Present,10749624320
+PPL,PPL Corporation,Utilities,2001-10-01,Present,26988599296
+PRU,Prudential Financial,Financial Services,2002-07-22,Present,38404022272
+RF,Regions Financial Corporation,Financial Services,1998-08-28,Present,23784468480
+RL,Ralph Lauren Corporation,Consumer Cyclical,2007-02-02,Present,17414504448
+ROST,Ross Stores,Consumer Cyclical,2009-12-21,Present,48226619392
+STT,State Street Corporation,Financial Services,2003-03-14,Present,32592302080
+SYF,Synchrony Financial,Financial Services,2015-11-18,Present,27536011264
+TPR,"Tapestry, Inc.",Consumer Cyclical,2004-09-01,Present,20491888640
+WEC,WEC Energy Group,Utilities,2008-10-31,Present,34426785792
+WYNN,Wynn Resorts,Consumer Cyclical,2008-11-14,Present,12306717696
+XEL,Xcel Energy,Utilities,1957-03-04,Present,43191840768
+YUM,Yum! Brands,Consumer Cyclical,1997-10-06,Present,40768651264
