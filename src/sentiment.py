@@ -42,103 +42,29 @@ Do not include any text or explanation—only return the JSON object. Do not gue
 
 Transcript:"""
 
-
-# def build_prompt(transcript: str) -> str:
-#     return f"{PROMPT_HEADER}\n{(transcript or '')[:CHAR_CAP]}"
-
-# def call_gpt_nano(prompt: str, max_retries: int = 5):
-#     delays = [1, 2, 5, 10, 20]
-#     for attempt in range(max_retries):
-#         try:
-#             resp = client.responses.create(
-#                 model=MODEL,
-#                 input=prompt,
-#                 max_output_tokens=MAX_OUTPUT_TOKENS,
-#                 reasoning={"effort": "low"},
-#                 text={"format": {"type": "json_object"}, "verbosity": "low"},
-#             )
-#             return resp.output_text.strip()
-#         except Exception:
-#             if attempt == max_retries - 1:
-#                 return None
-#             time.sleep(delays[min(attempt, len(delays)-1)])
-
-# def safe_json_load(s: str):
-#     if not s: return {}
-#     try: return json.loads(s)
-#     except:
-#         s2 = s.strip().strip("`").replace("```json","").replace("```","").strip()
-#         try: return json.loads(s2)
-#         except: return {}
-
-# def analyze_sentiment(ticker: str):
-#     ticker_dir = f"earnings_calls/{ticker}"
-#     scraped_path = os.path.join(ticker_dir, "scraped_earnings_calls.csv")
-#     processed_path = os.path.join(ticker_dir, "processed_earnings_calls.csv")
-
-#     # --- Load scraped data (with transcripts) ---
-#     if not os.path.exists(scraped_path):
-#         raise FileNotFoundError(f"No scraped data found for {ticker}")
-#     scraped_df = pd.read_csv(scraped_path)
-
-#      # --- Load or init processed data (NO transcripts) ---
-#     if os.path.exists(processed_path):
-#         processed_df = pd.read_csv(processed_path)
-#     else:
-#         processed_df = pd.DataFrame(columns=[
-#             "date","ticker","url","analysis_json",
-#             "forward_looking_sentiment","management_confidence",
-#             "risk_and_uncertainty","qa_sentiment","opening_sentiment",
-#             "financial_performance_sentiment","macroeconomic_reference_sentiment"
-#         ])
-
-#     # --- Figure out which calls are NEW (exist in scraped but not processed) ---
-#     already_processed_dates = set(processed_df["date"].astype(str))
-#     new_calls = scraped_df[~scraped_df["date"].astype(str).isin(already_processed_dates)]
-
-#     if new_calls.empty:
-#         print(f"✅ No new calls to process for {ticker}")
-#         return processed_df
-
-#     result_cols = [
-#         "forward_looking_sentiment","management_confidence",
-#         "risk_and_uncertainty","qa_sentiment","opening_sentiment",
-#         "financial_performance_sentiment","macroeconomic_reference_sentiment"
-#     ]
-
-#     processed_since_save = 0
-#     for _, row in new_calls.iterrows():
-#         prompt = build_prompt(row["earnings_call_raw_text"])
-#         txt = call_gpt_nano(prompt)
-#         parsed = safe_json_load(txt)
-
-#         new_row = {
-#             "date": row["date"],
-#             "ticker": ticker,
-#             "url": row.get("url",""),
-#             "analysis_json": txt,
-#         }
-#         for c in result_cols:
-#             new_row[c] = parsed.get(c, None)
-
-#         processed_df = pd.concat([processed_df, pd.DataFrame([new_row])], ignore_index=True)
-
-#         processed_since_save += 1
-#         if processed_since_save >= SAVE_EVERY:
-#             processed_df.to_csv(processed_path, index=False)
-#             processed_since_save = 0
-
-#     # Final save
-#     processed_df.to_csv(processed_path, index=False)
-#     print(f"✅ Processed {len(new_calls)} new calls for {ticker}")
-#     return processed_df
-
-
-# ---------------------- Helpers ----------------------
 def build_prompt(transcript: str) -> str:
+    """
+    This function takes the earnings call transcript as input and returns the final prompt
+
+    Input:
+    transcript (str): Earnings call transcript string
+
+    Output: formatted prompt
+    """
+
     return f"{PROMPT_HEADER}\n{(transcript or '')[:CHAR_CAP]}"
 
+
 def call_gpt_nano(prompt: str, max_retries: int = 5):
+    """
+    This function submits a GPT-5-nano request to analyze the sentiment of the earnings call. 
+    The request is submitted a max_retries number of times with exponential delays.
+
+    Inputs:
+    prompt (str): prompt to send to the LLM
+    max_retries (int): maximum number of times to retry the OpenAI request
+    """
+
     delays = [1, 2, 5, 10, 20]
     for attempt in range(max_retries):
         try:
@@ -156,7 +82,16 @@ def call_gpt_nano(prompt: str, max_retries: int = 5):
                 return None
             time.sleep(delays[min(attempt, len(delays)-1)])
 
+
 def safe_json_load(s: str):
+    """
+    This function safely loads the output and parses the results as a json.
+
+    Input:
+    s (str): output response string
+
+    Output: parsed output as dictionary object
+    """
     if not s:
         return {}
     try:
@@ -168,7 +103,14 @@ def safe_json_load(s: str):
         except Exception:
             return {}
 
+
 def _result_cols() -> List[str]:
+    """
+    This function stores the result columns for simple retrieval.
+
+    Output: list of sentiment result columns
+    """
+
     return [
         "forward_looking_sentiment",
         "management_confidence",
@@ -179,7 +121,6 @@ def _result_cols() -> List[str]:
         "macroeconomic_reference_sentiment",
     ]
 
-# ---------------------- Main (DataFrame-based) ----------------------
 def analyze_sentiment(all_calls: pd.DataFrame) -> pd.DataFrame:
     """
     Incrementally analyze sentiment for a combined DataFrame of transcripts.
@@ -192,11 +133,15 @@ def analyze_sentiment(all_calls: pd.DataFrame) -> pd.DataFrame:
 
     Side effects:
       - Writes per-ticker processed files at: earnings_calls/{ticker}/processed_earnings_calls.csv
-        (NO transcripts are stored here)
-      - Writes/updates a global consolidated ROOT_PROGRESS_PATH (no transcripts)
-    Returns:
-      - A consolidated DataFrame of processed rows (no transcripts)
+      - Writes/updates a global consolidated ROOT_PROGRESS_PATH 
+    
+    Input:
+    all_calls (pd.DataFrame): DataFrame containing all earnings calls transcripts to analyze sentiment for
+
+    Output:
+    consolidated_df (str): A consolidated DataFrame of processed rows (no transcripts)
     """
+
     required = {"ticker", "date", "year_quarter", "earnings_call_raw_text"}
     missing = [c for c in required if c not in all_calls.columns]
     if missing:
@@ -296,16 +241,21 @@ def analyze_sentiment(all_calls: pd.DataFrame) -> pd.DataFrame:
         consolidated_df = consolidated_df.drop_duplicates(subset=["ticker", "year_quarter", "date"]).sort_values(["ticker", "date"])
         consolidated_df.to_csv(ROOT_PROGRESS_PATH, index=False)
 
-    print(f"✅ Sentiment analysis complete. New calls processed: {total_new}")
+    print(f"Sentiment analysis complete. New calls processed: {total_new}")
     # Return consolidated results (no transcripts)
     return consolidated_df if not consolidated_df.empty else pd.DataFrame(
         columns=["date", "ticker", "year_quarter", "url", "analysis_json"] + _result_cols()
     )
 
+
 def _write_global_progress(global_path: str):
     """
     Rebuild the global consolidated CSV from per-ticker processed files.
+
+    Input:
+    global_path (str): global progress file path
     """
+    
     rows = []
     base = "earnings_calls"
     if not os.path.isdir(base):

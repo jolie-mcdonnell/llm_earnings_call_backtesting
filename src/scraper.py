@@ -1,21 +1,34 @@
 import os
 import pandas as pd
+from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 BASE_PATH = "earnings_calls"
 
-
 def parse_quarter(quarter_str: str):
+    """
+    Extract timestamp from quarter_str.
+
+    Input:
+    quarter_str (str): string in format '{year}-year/{quarter}-quarter'
+    """
     year, q = quarter_str.split("-year/")[0], quarter_str.split("/")[-1][0]
     month = {'1': 1, '2': 4, '3': 7, '4': 10}[q]
     return pd.Timestamp(f"{year}-{month:02d}-01")
 
 
 def get_earnings_call_text(url: str):
-    """Scrape transcript text from Roic.ai earnings call page."""
+    """Scrape transcript text from Roic.ai earnings call page.
+    
+    Input:
+    url (str): Roic.ai URL to scrape
+    """
     options = Options()
-    options.add_argument("--headless")
     options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1200,800")
+    options.add_argument("--window-size=100,100")
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     try:
         driver.get(url)
@@ -46,6 +59,17 @@ def get_earnings_call_text(url: str):
 
 
 def get_year_quarters_from_dates(start_date: pd.Timestamp, end_date: pd.Timestamp):
+    """
+    This functin extracts fiscal year/quarter strings from a given date range.
+
+    Inputs:
+    start_date (pd.Timestamp): start date
+    end_date (pd.Timestamp): end date
+
+    Returns:
+    list[str]: list of year quarters, in the format required by roic.ai ({year}-year/{quarter}-quarter)
+    """
+
     year_quarters = []
     current = pd.Timestamp(start_date.year, ((start_date.month - 1) // 3) * 3 + 1, 1)
     end = pd.Timestamp(end_date.year, ((end_date.month - 1) // 3) * 3 + 1, 1)
@@ -58,15 +82,26 @@ def get_year_quarters_from_dates(start_date: pd.Timestamp, end_date: pd.Timestam
         year = current.year + (month - 1) // 12
         month = (month - 1) % 12 + 1
         current = pd.Timestamp(year, month, 1)
+
     return year_quarters
+
 
 def scrape_ticker(ticker: str, start_date: pd.Timestamp, end_date: pd.Timestamp):
     """
-    Incrementally scrape transcripts for a ticker.
+    This function incrementally scrape transcripts for a ticker.
     - Loads existing CSV if available
     - Finds only missing quarters in the requested range
     - Scrapes & appends them
+
+    Inputs:
+    ticker (str): ticker symbol
+    start_date (pd.Timestamp): start date
+    end_date (pd.Timestamp): end date
+
+    Outputs:
+    combined (pd.DataFrame): final combined df of all scraped data
     """
+
     year_quarters = get_year_quarters_from_dates(start_date, end_date)
     ticker_dir = f"./earnings_calls/{ticker}/"
     os.makedirs(ticker_dir, exist_ok=True)
@@ -85,7 +120,7 @@ def scrape_ticker(ticker: str, start_date: pd.Timestamp, end_date: pd.Timestamp)
         print(f"✅ All requested quarters for {ticker} already scraped.")
         return existing
 
-    print(f"🔎 Scraping {len(missing_quarters)} new transcripts for {ticker}...")
+    print(f"Scraping {len(missing_quarters)} new transcripts for {ticker}...")
 
     base_url = f"https://www.roic.ai/quote/{ticker}/transcripts/"
     new_calls = []
@@ -108,6 +143,7 @@ def scrape_ticker(ticker: str, start_date: pd.Timestamp, end_date: pd.Timestamp)
 
     new_df = pd.DataFrame(new_calls)
     combined = pd.concat([existing, new_df], ignore_index=True)
+    combined["date"] = pd.to_datetime(combined["date"], errors="coerce")
 
     # Deduplicate just in case
     combined = combined.drop_duplicates(subset=["ticker", "year_quarter"]).sort_values("date")
@@ -115,7 +151,7 @@ def scrape_ticker(ticker: str, start_date: pd.Timestamp, end_date: pd.Timestamp)
     # Only write if something changed
     if len(combined) > len(existing):
         combined.to_csv(file_path, index=False)
-        print(f"💾 Saved updated transcripts for {ticker}")
+        print(f"Saved updated transcripts for {ticker}")
 
     return combined
 
@@ -124,7 +160,15 @@ def combine_all_calls(start_date=None, end_date=None):
     """
     Combine all per-ticker scraped earnings calls into one DataFrame.
     Optionally filter by date range.
+
+    Inputs:
+    start_date
+    end_date
+
+    Output:
+    all_calls (pd.DataFrame): df containing all earnings calls
     """
+
     files = glob.glob("earnings_calls/*/scraped_earnings_calls.csv")
     dfs = []
     for f in files:
@@ -146,4 +190,5 @@ def combine_all_calls(start_date=None, end_date=None):
         all_calls = all_calls[all_calls['date'] <= pd.Timestamp(end_date)]
 
     all_calls.to_csv("all_calls.csv", index=False)
+
     return all_calls
