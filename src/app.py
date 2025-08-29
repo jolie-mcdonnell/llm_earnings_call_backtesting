@@ -37,7 +37,7 @@ if run_pipeline:
     
     start_date, end_date = pd.Timestamp(date_range[0]), pd.Timestamp(date_range[1])
 
-    # --- Step 1: Scrape Earnings Calls ---
+    # Step 1: Scrape Earnings Calls
     st.header("Step 1: Scrape Earnings Calls")
     all_calls_list = []
     for t in tickers:
@@ -47,17 +47,23 @@ if run_pipeline:
     all_calls = pd.concat(all_calls_list, ignore_index=True)
     st.dataframe(all_calls.head())
 
-    # --- Step 2: Sentiment Analysis ---
+    # Step 2: Sentiment Analysis
     st.header("Step 2: Sentiment Analysis")
     st.write("Running sentiment model on earnings calls...")
     all_calls = analyze_sentiment(all_calls)
     st.dataframe(all_calls.head())
 
-    # --- Step 3: Trading Strategy Backtest ---
+    # Step 3: Trading Strategy Backtest
     st.header("Step 3: Trading Strategy Backtest")
     st.write("Backtesting sentiment-based trading strategy...")
-    results = backtest_sentiment_strategy(all_calls)
 
-    for ticker, curve in results.items():
-        st.subheader(ticker)
-        st.line_chart(curve)
+    curves = backtest_sentiment_strategy(all_calls)
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+    curves.plot(ax=ax)
+    ax.set_title("Sentiment Strategy vs Buy & Hold", fontsize=16)
+    ax.set_ylabel("Cumulative Returns", fontsize=12)
+    ax.set_xlabel("Date", fontsize=12)
+    ax.grid(True)
+    ax.legend(title="Strategy")
+    st.pyplot(fig)
